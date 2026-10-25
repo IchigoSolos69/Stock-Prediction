@@ -1,0 +1,16 @@
+[project]
+name = "stock-pred-terminal"
+version = "0.2.0"
+requires-python = ">=3.12,<3.14"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 120
+extend-exclude = [".venv", ".venv-fixed"]
+
+[tool.ruff.lint]
+select = ["E9", "F", "B"]
