@@ -373,12 +373,12 @@ With at least 100 finite, nonconstant returns, the helper attempts a GARCH(1,1) 
 .\.venv-fixed\Scripts\python.exe -m pip install -r requirements-dev.txt -c requirements.lock.txt
 .\.venv-fixed\Scripts\python.exe -m pip check
 .\.venv-fixed\Scripts\ruff.exe check .
-.\.venv-fixed\Scripts\python.exe -m pytest -q --basetemp=.cache/pytest-local
+.\.venv-fixed\Scripts\python.exe -m pytest -q
 ```
 
 The regression suite blocks external provider requests and uses deterministic fixtures, while fitting real XGBoost models. Coverage includes symbol/path safety, candle cleaning, causal feature invariance, macro availability, completed sessions, missing-bar labels, intraday horizon embargoes, native model round trips, broker timeout/logging behavior, news parsing, flows, quotes/options failures, backtest costs/compounding, and Streamlit startup/training/forecast/backtest/options interactions.
 
-The last recorded full verification on **8 October 2026** passed **41 tests**, Ruff, and `pip check`. Live public HINDCOPPER training/forecast/backtesting also succeeded then. This documentation update does not establish current feed availability or rerun those live checks.
+On **28 October 2026**, the corrected CI command passed **41 tests** in a clean source copy without a pre-existing `.cache` directory; Ruff also passed. The previous custom base-temp command reproduced the reported `FileNotFoundError` in that same clean copy. Dependency checks and live public HINDCOPPER training/forecast/backtesting succeeded on **8 October 2026**; those checks were not repeated for this CI fix.
 
 In a restrictive Windows sandbox, use an existing writable project temp folder:
 
@@ -389,7 +389,7 @@ $env:TMP = $env:TEMP
 .\.venv-fixed\Scripts\python.exe -m pytest -q --basetemp=.cache/pytest-local
 ```
 
-Pytest clears its selected base-temp directory between runs; use a dedicated generated test directory. `.github/workflows/tests.yml` configures Ubuntu/Python 3.12 checks for pushes and pull requests with read-only repository permissions. The workflow has not been verified remotely.
+The standard development and CI commands use pytest's default temporary directory and work without a pre-existing `.cache` folder. The sandbox example creates `.cache` before selecting a custom base-temp directory. Pytest clears that selected directory between runs; use a dedicated generated test directory. `.github/workflows/tests.yml` configures Ubuntu/Python 3.12 checks for pushes and pull requests with read-only repository permissions.
 
 ## Troubleshooting
 
